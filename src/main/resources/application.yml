@@ -1,0 +1,37 @@
+server:
+  port: 9998
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: user-service
+          uri: lb://USER
+          predicates:
+            - Path=/users/**
+        - id: dataquad-requirements-api
+          uri: lb://DATAQUADREQUIREMENTSAPI
+          predicates:
+            - Path=/requirements/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.value}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.netflix.eureka: DEBUG
