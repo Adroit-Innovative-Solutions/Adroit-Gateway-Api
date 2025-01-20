@@ -13,8 +13,9 @@ public class GatewayConfig {
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Add your UI's origin
+        
        config.addAllowedOrigin("http://192.168.0.140:3000");
+
 
         // Allow all methods (GET, POST, etc.)
         config.addAllowedMethod("*");
