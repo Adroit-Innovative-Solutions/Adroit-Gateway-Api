@@ -58,24 +58,24 @@ public class GatewayConfig {
                 .route("user_service_login", r -> r
                         .path("/users/login")
                         .filters(f -> f.filter(loginCookieFilter.apply(new LoginCookieFilter.Config())))
-                        .uri("http://localhost:8083"))
+                        .uri("http://localhost:8084"))
                 .route("user_service_auth", r -> r
                         .path("/users/login", "/users/register", "/users/send-otp", "/users/verify-otp", "/users/update-password")
-                        .uri("http://localhost:8083"))
+                        .uri("http://localhost:8084"))
                 .route("user_service", r -> r
                         .path("/users/**")
                         .filters(f -> f.filter(new CookieToHeaderFilter()) // inject Authorization from cookie
                                 .filter(jwtAuthenticationFilter.apply(new JwtAuthenticationFilter.Config())))
-                        .uri("http://localhost:8083")).route("requirements_service", r -> r
+                        .uri("http://localhost:8084")).route("requirements_service", r -> r
                         .path("/requirements/**")
                         .filters(f -> f.filter(new CookieToHeaderFilter()) // inject Authorization from cookie
                                 .filter(jwtAuthenticationFilter.apply(new JwtAuthenticationFilter.Config())))
-                        .uri("http://localhost:8111")) // Replace with actual host/port of requirements-service
+                        .uri("http://localhost:8222")) // Replace with actual host/port of requirements-service
                 .route("candidates_service", r -> r
                         .path("/candidate/**")
                         .filters(f -> f.filter(new CookieToHeaderFilter()) // inject Authorization from cookie
                                 .filter(jwtAuthenticationFilter.apply(new JwtAuthenticationFilter.Config())))
-                        .uri("http://localhost:8085")) // Replace with actual host/port
+                        .uri("http://localhost:8086")) // Replace with actual host/port
                 .build();
     }
 }
