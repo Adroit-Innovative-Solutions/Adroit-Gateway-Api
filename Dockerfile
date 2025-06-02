@@ -1,4 +1,4 @@
-#Use the official openjdk image as the builder image
+ #Use the official openjdk image as the builder image
 FROM openjdk:21-jdk-slim AS builder
 
 # Install Maven
@@ -29,7 +29,7 @@ WORKDIR /app
 COPY --from=builder /app/target/ApiGateway-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port the app runs on
-EXPOSE 8083
+EXPOSE 8081
 
 # Run the JAR file
 ENTRYPOINT ["java", "-jar", "app.jar"]
