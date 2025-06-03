@@ -10,13 +10,20 @@ spring:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       routes:
-        # Public endpoints for User Service
+        # Login Route - Apply LoginCookieFilter
+        - id: login_route
+          uri: lb://user-service
+          predicates:
+            - Path=/users/login
+
+
+        # Public routes without JWT check
         - id: user_service_public
           uri: lb://user-service
           predicates:
-            - Path=/users/login,/users/register,/users/send-otp,/users/verify-otp,/users/update-password
+            - Path=/users/register,/users/send-otp,/users/verify-otp,/users/update-password
 
-        # Protected endpoints for User Service
+        # Protected User Service
         - id: user_service
           uri: lb://user-service
           predicates:
