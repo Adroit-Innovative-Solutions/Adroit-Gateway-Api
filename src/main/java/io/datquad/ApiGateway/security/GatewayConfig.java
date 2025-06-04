@@ -49,9 +49,6 @@ public class GatewayConfig {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("user_service_login", r -> r
-                        .path("/users/login")
-                        .uri("http://localhost:8084"))
                 .route("user_service_auth", r -> r
                         .path("/users/login", "/users/register", "/users/send-otp", "/users/verify-otp", "/users/update-password")
                         .uri("http://localhost:8084"))
