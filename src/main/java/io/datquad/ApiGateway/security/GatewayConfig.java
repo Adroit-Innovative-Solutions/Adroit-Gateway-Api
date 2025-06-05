@@ -61,27 +61,27 @@ public class GatewayConfig {
                 // Authentication routes (no JWT filter needed)
                 .route("user_service_auth", r -> r
                         .path("/users/login", "/users/register", "/users/send-otp", "/users/verify-otp", "/users/update-password")
-                        .filters(f -> f.filter(cookieToHeaderFilter))
+                        .filters(f -> f.filter(new CookieToHeaderFilter()))
                         .uri("http://dataquad-userregister-dev:8084"))
 
                 // Protected user routes
                 .route("user_service", r -> r
                         .path("/users/**")
-                        .filters(f -> f.filter(cookieToHeaderFilter)
+                        .filters(f -> f.filter(new CookieToHeaderFilter())
                                 .filter(jwtAuthenticationFilter.apply(new JwtAuthenticationFilter.Config())))
                         .uri("http://dataquad-userregister-dev:8084"))
 
                 // Protected requirements routes
                 .route("requirements_service", r -> r
                         .path("/requirements/**")
-                        .filters(f -> f.filter(cookieToHeaderFilter)
+                        .filters(f -> f.filter(new CookieToHeaderFilter())
                                 .filter(jwtAuthenticationFilter.apply(new JwtAuthenticationFilter.Config())))
                         .uri("http://dataquad-requirements-dev:8222"))
 
                 // Protected candidates routes
                 .route("candidates_service", r -> r
                         .path("/candidate/**")
-                        .filters(f -> f.filter(cookieToHeaderFilter)
+                        .filters(f -> f.filter(new CookieToHeaderFilter())
                                 .filter(jwtAuthenticationFilter.apply(new JwtAuthenticationFilter.Config())))
                         .uri("http://dataquad-candidates-dev:8086"))
 
