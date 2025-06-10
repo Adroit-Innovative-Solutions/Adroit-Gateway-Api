@@ -67,9 +67,12 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
                 String userEmail = jwtService.extractUsername(token);
                 logger.info("Authenticated user from JWT: {}", userEmail);
 
+                String refreshToken = extractRefreshTokenFromCookie(request);
+
                 // Forward user email to downstream services
                 ServerHttpRequest mutatedRequest = request.mutate()
                         .header("X-Auth-User", userEmail)
+                        .header("X-Refresh-Token", refreshToken != null ? refreshToken : "")
                         .build();
 
                 return chain.filter(exchange.mutate().request(mutatedRequest).build());
@@ -117,6 +120,26 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
             }
         } catch (Exception e) {
             logger.error("Error parsing token from cookie: {}", e.getMessage());
+        }
+        return null;
+    }
+
+    private String extractRefreshTokenFromCookie(ServerHttpRequest request) {
+        try {
+            request.getCookies().forEach((name, value) ->
+                    logger.debug("Cookie: {} = {}", name, value)
+            );
+
+            List<HttpCookie> cookies = request.getCookies().getOrDefault("refreshToken", List.of());
+            if (!cookies.isEmpty()) {
+                String token = cookies.get(0).getValue();
+                logger.info("Extracted refresh token from refreshToken cookie: {}", token);
+                return token;
+            } else {
+                logger.debug("No refreshToken cookie found.");
+            }
+        } catch (Exception e) {
+            logger.error("Error parsing refresh token from cookie: {}", e.getMessage());
         }
         return null;
     }
