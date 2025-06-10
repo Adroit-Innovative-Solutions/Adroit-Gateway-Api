@@ -32,6 +32,7 @@ public class GatewayConfig {
                 "http://localhost:3000",
                 "http://localhost:80"
         ));
+
         corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         corsConfig.setAllowedHeaders(Arrays.asList(
                 "Authorization",
