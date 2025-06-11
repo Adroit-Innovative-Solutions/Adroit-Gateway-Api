@@ -31,7 +31,8 @@ public class GatewayConfig {
                 "http://182.18.177.16",
                 "http://192.168.0.246:3000",
                 "http://localhost:*",
-                "http://192.168.29.22:3000"
+                "http://192.168.29.22:3000",
+                "http://192.168.0.246"
         ));
 
         corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
