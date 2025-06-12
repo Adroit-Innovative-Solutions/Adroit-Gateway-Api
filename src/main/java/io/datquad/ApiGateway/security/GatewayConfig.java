@@ -30,7 +30,7 @@ public class GatewayConfig {
         corsConfig.setAllowedOrigins(Arrays.asList(
                 "http://182.18.177.16",
                 "http://192.168.0.246:3000",
-                "http://localhost:*",
+                "http://localhost:3000",
                 "http://192.168.29.22:3000",
                 "http://192.168.0.246"
         ));

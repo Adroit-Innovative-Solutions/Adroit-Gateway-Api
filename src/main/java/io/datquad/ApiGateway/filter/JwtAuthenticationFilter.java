@@ -166,11 +166,21 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
         response.setStatusCode(status);
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
-        // ✅ Correct CORS headers — use `.set()` to overwrite instead of `.add()`
-        response.getHeaders().set("Access-Control-Allow-Origin", "http://182.18.177.16");
-        response.getHeaders().set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.getHeaders().set("Access-Control-Allow-Headers", "Authorization, Content-Type");
-        response.getHeaders().set("Access-Control-Allow-Credentials", "true");
+        String requestOrigin = exchange.getRequest().getHeaders().getOrigin();
+        List<String> allowedOrigins = List.of(
+                "http://182.18.177.16",
+                "http://192.168.0.246:3000",
+                "http://localhost:3000",
+                "http://192.168.29.22:3000",
+                "http://192.168.0.246"
+        );
+
+        if (requestOrigin != null && allowedOrigins.contains(requestOrigin)) {
+            response.getHeaders().set("Access-Control-Allow-Origin", requestOrigin);
+            response.getHeaders().set("Access-Control-Allow-Credentials", "true");
+            response.getHeaders().set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            response.getHeaders().set("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Requested-With");
+        }
 
         String body = String.format("{\"error\": \"%s\", \"status\": %d, \"timestamp\": \"%s\"}",
                 message, status.value(), java.time.Instant.now());
