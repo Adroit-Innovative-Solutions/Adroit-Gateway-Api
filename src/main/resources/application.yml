@@ -1,19 +1,19 @@
 server:
-  port:8090
+  port: 8090
 
 spring:
   cloud:
     gateway:
       routes:
         - id: user-register-service
-          uri: http://192.168.0.135:8091  #User Register Service URL
+          uri: http://adroit-userregister-prod:8091  #User Register Service URL
           predicates:
             - Path=/users/**          #Routes "/user/**" to UserRegister
 #          filters:
 #            - StripPrefix=1           #Removes "/user" before forwarding
 
         - id: hotlist-service
-          uri: http://192.168.0.135:8092    #HotList Service URL
+          uri: http://adroit-hotlist-prod:8092    #HotList Service URL
           predicates:
             - Path=/hotlist/**          #Routes "/hotlist/**" to HotList Service
 #          filters:
